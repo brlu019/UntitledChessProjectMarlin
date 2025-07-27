@@ -59,6 +59,7 @@
 #define X_STOP_PIN                          PC0   // X-STOP
 #define Y_STOP_PIN                          PC1   // Y-STOP
 #define Z_STOP_PIN                          PC2   // Z-STOP
+#define I_STOP_PIN                          PC3   // I-STOP
 
 //
 // Z Probe must be this pin
@@ -135,7 +136,7 @@
   static_assert(X_SLAVE_ADDRESS == 0, "X_SLAVE_ADDRESS must be 0 for BOARD_BTT_SKR_MINI_E3_V3_0.");
   static_assert(Y_SLAVE_ADDRESS == 2, "Y_SLAVE_ADDRESS must be 2 for BOARD_BTT_SKR_MINI_E3_V3_0.");
   static_assert(Z_SLAVE_ADDRESS == 1, "Z_SLAVE_ADDRESS must be 1 for BOARD_BTT_SKR_MINI_E3_V3_0.");
-  static_assert(I_SLAVE_ADDRESS == 3, "E0_SLAVE_ADDRESS must be 3 for BOARD_BTT_SKR_MINI_E3_V3_0.");
+  static_assert(I_SLAVE_ADDRESS == 3, "I_SLAVE_ADDRESS must be 3 for BOARD_BTT_SKR_MINI_E3_V3_0.");
 #endif
 
 //

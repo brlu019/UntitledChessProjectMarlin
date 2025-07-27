@@ -483,7 +483,7 @@
  * Enable Autotemp Mode with M104/M109 F<factor> S<mintemp> B<maxtemp>.
  * Disable by sending M104/M109 with no F parameter (or F0 with AUTOTEMP_PROPORTIONAL).
  */
-#define AUTOTEMP
+// #define AUTOTEMP
 #if ENABLED(AUTOTEMP)
   #define AUTOTEMP_OLDWEIGHT    0.98  // Factor used to weight previous readings (0.0 < value < 1.0)
   #define AUTOTEMP_MIN          210
@@ -563,10 +563,10 @@
 
 // Calibration for AD595 / AD8495 sensor to adjust temperature measurements.
 // The final temperature is calculated as (measuredTemp * GAIN) + OFFSET.
-#define TEMP_SENSOR_AD595_OFFSET  0.0
-#define TEMP_SENSOR_AD595_GAIN    1.0
-#define TEMP_SENSOR_AD8495_OFFSET 0.0
-#define TEMP_SENSOR_AD8495_GAIN   1.0
+// #define TEMP_SENSOR_AD595_OFFSET  0.0
+// #define TEMP_SENSOR_AD595_GAIN    1.0
+// #define TEMP_SENSOR_AD8495_OFFSET 0.0
+// #define TEMP_SENSOR_AD8495_GAIN   1.0
 
 // @section fans
 
@@ -689,23 +689,23 @@
  * Multiple extruders can be assigned to the same pin in which case
  * the fan will turn on when any selected extruder is above the threshold.
  */
-#define E0_AUTO_FAN_PIN -1
-#define E1_AUTO_FAN_PIN -1
-#define E2_AUTO_FAN_PIN -1
-#define E3_AUTO_FAN_PIN -1
-#define E4_AUTO_FAN_PIN -1
-#define E5_AUTO_FAN_PIN -1
-#define E6_AUTO_FAN_PIN -1
-#define E7_AUTO_FAN_PIN -1
-#define CHAMBER_AUTO_FAN_PIN -1
-#define COOLER_AUTO_FAN_PIN -1
+// #define E0_AUTO_FAN_PIN -1
+// #define E1_AUTO_FAN_PIN -1
+// #define E2_AUTO_FAN_PIN -1
+// #define E3_AUTO_FAN_PIN -1
+// #define E4_AUTO_FAN_PIN -1
+// #define E5_AUTO_FAN_PIN -1
+// #define E6_AUTO_FAN_PIN -1
+// #define E7_AUTO_FAN_PIN -1
+// #define CHAMBER_AUTO_FAN_PIN -1
+// #define COOLER_AUTO_FAN_PIN -1
 
-#define EXTRUDER_AUTO_FAN_TEMPERATURE 50
-#define EXTRUDER_AUTO_FAN_SPEED 255   // 255 == full speed
-#define CHAMBER_AUTO_FAN_TEMPERATURE 30
-#define CHAMBER_AUTO_FAN_SPEED 255
-#define COOLER_AUTO_FAN_TEMPERATURE 18
-#define COOLER_AUTO_FAN_SPEED 255
+// #define EXTRUDER_AUTO_FAN_TEMPERATURE 50
+// #define EXTRUDER_AUTO_FAN_SPEED 255   // 255 == full speed
+// #define CHAMBER_AUTO_FAN_TEMPERATURE 30
+// #define CHAMBER_AUTO_FAN_SPEED 255
+// #define COOLER_AUTO_FAN_TEMPERATURE 18
+// #define COOLER_AUTO_FAN_SPEED 255
 
 /**
  * Hotend Cooling Fans tachometers
@@ -748,9 +748,9 @@
  * The multiplexer is automatically switched at tool-change.
  * Set FANMUX[012]_PINs below for up to 2, 4, or 8 multiplexed fans.
  */
-#define FANMUX0_PIN -1
-#define FANMUX1_PIN -1
-#define FANMUX2_PIN -1
+// #define FANMUX0_PIN -1
+// #define FANMUX1_PIN -1
+// #define FANMUX2_PIN -1
 
 /**
  * @section caselight
@@ -933,8 +933,8 @@
 
 //#define SENSORLESS_BACKOFF_MM  { 2, 2, 0 }  // (linear=mm, rotational=°) Backoff from endstops before sensorless homing
 
-#define HOMING_BUMP_MM      { 5, 5, 2 }       // (linear=mm, rotational=°) Backoff from endstops after first bump
-#define HOMING_BUMP_DIVISOR { 2, 2, 4 }       // Re-Bump Speed Divisor (Divides the Homing Feedrate)
+#define HOMING_BUMP_MM      { 5, 5, 5, 5 }       // (linear=mm, rotational=°) Backoff from endstops after first bump
+#define HOMING_BUMP_DIVISOR { 2, 2, 2, 2 }       // Re-Bump Speed Divisor (Divides the Homing Feedrate)
 
 //#define HOMING_BACKOFF_POST_MM { 2, 2, 2 }  // (linear=mm, rotational=°) Backoff from endstops after homing
 //#define XY_COUNTERPART_BACKOFF_MM 0         // (mm) Backoff X after homing Y, and vice-versa
@@ -1253,12 +1253,12 @@
 #define STEP_STATE_Y HIGH
 #define STEP_STATE_Z HIGH
 #define STEP_STATE_I HIGH
-#define STEP_STATE_J HIGH
-#define STEP_STATE_K HIGH
-#define STEP_STATE_U HIGH
-#define STEP_STATE_V HIGH
-#define STEP_STATE_W HIGH
-#define STEP_STATE_E HIGH
+// #define STEP_STATE_J HIGH
+// #define STEP_STATE_K HIGH
+// #define STEP_STATE_U HIGH
+// #define STEP_STATE_V HIGH
+// #define STEP_STATE_W HIGH
+// #define STEP_STATE_E HIGH
 
 /**
  * Idle Stepper Shutdown
@@ -1269,12 +1269,12 @@
 #define DISABLE_IDLE_X
 #define DISABLE_IDLE_Y
 #define DISABLE_IDLE_Z    // Disable if the nozzle could fall onto your printed part!
-//#define DISABLE_IDLE_I
+#define DISABLE_IDLE_I
 //#define DISABLE_IDLE_J
 //#define DISABLE_IDLE_K
 //#define DISABLE_IDLE_U
 //#define DISABLE_IDLE_V
-#define DISABLE_IDLE_W
+// #define DISABLE_IDLE_W
 // #define DISABLE_IDLE_E    // Shut down all idle extruders
 
 // Default Minimum Feedrates for printing and travel moves
@@ -3137,7 +3137,7 @@
   #endif
 
   #if AXIS_IS_TMC_CONFIG(I)
-    #define I_CURRENT      800
+    #define I_CURRENT      1000
     #define I_CURRENT_HOME I_CURRENT
     #define I_MICROSTEPS    16
     #define I_RSENSE         0.11
@@ -3459,7 +3459,7 @@
   #define X2_HYBRID_THRESHOLD    100
   #define Y_HYBRID_THRESHOLD     100
   #define Y2_HYBRID_THRESHOLD    100
-  #define Z_HYBRID_THRESHOLD       3
+  #define Z_HYBRID_THRESHOLD     100
   #define Z2_HYBRID_THRESHOLD      3
   #define Z3_HYBRID_THRESHOLD      3
   #define Z4_HYBRID_THRESHOLD      3
@@ -3504,7 +3504,7 @@
    * Comment *_STALL_SENSITIVITY to disable sensorless homing for that axis.
    * @section tmc/stallguard
    */
-  #define SENSORLESS_HOMING // StallGuard capable drivers only
+  #define SENSORLESS_HOMING // StallGuard capable drivers onlyY
 
   #if ANY(SENSORLESS_HOMING, SENSORLESS_PROBING)
     // TMC2209: 0...255. TMC2130: -64...63
@@ -3523,7 +3523,7 @@
     //#define K_STALL_SENSITIVITY  8
     //#define U_STALL_SENSITIVITY  8
     //#define V_STALL_SENSITIVITY  8
-    // #define W_STALL_SENSITIVITY  8
+    //#define W_STALL_SENSITIVITY  8
     //#define SPI_ENDSTOPS              // TMC2130, TMC2240, and TMC5160
     //#define IMPROVE_HOMING_RELIABILITY
   #endif
