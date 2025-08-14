@@ -289,7 +289,7 @@ void report_current_position_projected() {
 
     #define _MAP_SAVE_SET(A) OPTCODE(A##_HAS_HOME_CURRENT, _SAVE_SET_CURRENT(A))
 
-    if (DEBUGGING(LEVELING)) DEBUG_ECHOLNPGM("Setting homing driver current");
+    if (DEBUGGING(LEVELING)) DEBUG_ECHOLNPGM("Setting homing driver current for: ", axis);
 
     #if ANY(CORE_IS_XY, MARKFORGED_XY, MARKFORGED_YX)
 
@@ -403,6 +403,7 @@ void report_current_position_projected() {
 
     #endif // kinematics
 
+    // Handles other axes
     switch (axis) {
       default: break;
       #if I_HAS_HOME_CURRENT && DISABLED(FOAMCUTTER_XYUV)
@@ -424,6 +425,18 @@ void report_current_position_projected() {
         case W_AXIS: _SAVE_SET_CURRENT(W); break;
       #endif
     }
+
+    // Set all other axes to max holding current
+    AxisEnum all_axes[] = {X_AXIS, Y_AXIS, Z_AXIS, I_AXIS}; // extend if needed
+    for (auto ax : all_axes) {
+        if (ax == axis) continue; // skip the axis being homed
+        switch (ax) {
+            case X_AXIS: stepperX.rms_current(X_HOMING_HOLD_CURRENT); DEBUG_ECHOLNPGM("Set X to : ", X_HOMING_HOLD_CURRENT); break;
+            case Y_AXIS: stepperY.rms_current(Y_HOMING_HOLD_CURRENT); DEBUG_ECHOLNPGM("Set Y to : ", Y_HOMING_HOLD_CURRENT); break;
+            case Z_AXIS: stepperZ.rms_current(Z_HOMING_HOLD_CURRENT); DEBUG_ECHOLNPGM("Set Z to : ", Z_HOMING_HOLD_CURRENT); break;
+            case I_AXIS: stepperI.rms_current(I_HOMING_HOLD_CURRENT); DEBUG_ECHOLNPGM("Set I to : ", I_HOMING_HOLD_CURRENT); break;
+        }
+      }
 
     #if SENSORLESS_STALLGUARD_DELAY
       safe_delay(SENSORLESS_STALLGUARD_DELAY); // Short delay needed to settle

@@ -59,7 +59,7 @@
 #define X_STOP_PIN                          PC0   // X-STOP
 #define Y_STOP_PIN                          PC1   // Y-STOP
 #define Z_STOP_PIN                          PC2   // Z-STOP
-#define I_STOP_PIN                          PC   // I-STOP
+#define I_STOP_PIN                          PC15   // I-STOP
 
 //
 // Z Probe must be this pin

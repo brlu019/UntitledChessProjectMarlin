@@ -3035,7 +3035,7 @@
  */
 #if HAS_TRINAMIC_CONFIG
 
-  #define HOLD_MULTIPLIER    0.5  // Scales down the holding current from run current
+  #define HOLD_MULTIPLIER    0.4  // Scales down the holding current from run current
 
   //#define EDITABLE_HOMING_CURRENT   // Add a G-code and menu to modify the Homing Current
 
@@ -3054,12 +3054,13 @@
   #endif
 
   #if AXIS_IS_TMC_CONFIG(X)
-    #define X_CURRENT       1000        // (mA) RMS current. Multiply by 1.414 for peak current.
-    #define X_CURRENT_HOME  400  // (mA) RMS current for homing. (Typically lower than *_CURRENT.)
+    #define X_CURRENT       800        // (mA) RMS current. Multiply by 1.414 for peak current.
+    #define X_CURRENT_HOME  300  // (mA) RMS current for homing. (Typically lower than *_CURRENT.)
     #define X_MICROSTEPS     16        // 0..256
     #define X_RSENSE          0.11
     #define X_CHAIN_POS      -1        // -1..0: Not chained. 1: MCU MOSI connected. 2: Next in chain, ...
     #define X_STEALTHCHOP    true      // Enable StealthChop for silent operation
+    #define X_HOMING_HOLD_CURRENT 800
     //#define X_INTERPOLATE  true      // Enable to override 'INTERPOLATE' for the X axis
     //#define X_HOLD_MULTIPLIER 0.5    // Enable to override 'HOLD_MULTIPLIER' for the X axis
   #endif
@@ -3075,12 +3076,13 @@
   #endif
 
   #if AXIS_IS_TMC_CONFIG(Y)
-    #define Y_CURRENT       1000
-    #define Y_CURRENT_HOME  400
+    #define Y_CURRENT       800
+    #define Y_CURRENT_HOME  300
     #define Y_MICROSTEPS     16
     #define Y_RSENSE          0.11
     #define Y_CHAIN_POS      -1
     #define Y_STEALTHCHOP    true
+    #define Y_HOMING_HOLD_CURRENT 800
     //#define Y_INTERPOLATE  true
     //#define Y_HOLD_MULTIPLIER 0.5
   #endif
@@ -3096,12 +3098,13 @@
   #endif
 
   #if AXIS_IS_TMC_CONFIG(Z)
-    #define Z_CURRENT       1000
-    #define Z_CURRENT_HOME  400
+    #define Z_CURRENT       800
+    #define Z_CURRENT_HOME  300
     #define Z_MICROSTEPS     16
     #define Z_RSENSE          0.11
     #define Z_CHAIN_POS      -1
     #define Z_STEALTHCHOP    true
+    #define Z_HOMING_HOLD_CURRENT 800
     //#define Z_INTERPOLATE  true
     //#define Z_HOLD_MULTIPLIER 0.5
   #endif
@@ -3137,12 +3140,13 @@
   #endif
 
   #if AXIS_IS_TMC_CONFIG(I)
-    #define I_CURRENT      1000
-    #define I_CURRENT_HOME 400
+    #define I_CURRENT      800
+    #define I_CURRENT_HOME 300
     #define I_MICROSTEPS    16
     #define I_RSENSE         0.11
     #define I_CHAIN_POS     -1
     #define I_STEALTHCHOP    true
+    #define I_HOMING_HOLD_CURRENT 800
     //#define I_INTERPOLATE  true
     //#define I_HOLD_MULTIPLIER 0.5
   #endif
@@ -3508,17 +3512,17 @@
 
   #if ANY(SENSORLESS_HOMING, SENSORLESS_PROBING)
     // TMC2209: 0...255. TMC2130: -64...63
-    #define X_STALL_SENSITIVITY  23
+    #define X_STALL_SENSITIVITY  25
     // #define X2_STALL_SENSITIVITY X_STALL_SENSITIVITY
-    #define Y_STALL_SENSITIVITY  23
+    #define Y_STALL_SENSITIVITY  25
     // #define Y2_STALL_SENSITIVITY Y_STALL_SENSITIVITY
-    #define Z_STALL_SENSITIVITY  23
+    #define Z_STALL_SENSITIVITY  25
     // #define Z2_STALL_SENSITIVITY Z_STALL_SENSITIVITY
     // #define E0_STALL_SENSITIVITY 8
     // #define E1_STALL_SENSITIVITY E0_STALL_SENSITIVITY
     //#define Z3_STALL_SENSITIVITY Z_STALL_SENSITIVITY
     //#define Z4_STALL_SENSITIVITY Z_STALL_SENSITIVITY
-    #define I_STALL_SENSITIVITY  23
+    #define I_STALL_SENSITIVITY  25
     //#define J_STALL_SENSITIVITY  8
     //#define K_STALL_SENSITIVITY  8
     //#define U_STALL_SENSITIVITY  8
@@ -3540,7 +3544,7 @@
    *
    * Values from 0..1023, -1 to disable homing phase for that axis.
    */
-   //#define TMC_HOME_PHASE { 896, 896, 896 }
+   #define TMC_HOME_PHASE { 896, 896, 896, 896}
 
   /**
    * Step on both rising and falling edge signals (as with a square wave).
