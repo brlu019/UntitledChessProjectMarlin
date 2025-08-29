@@ -129,6 +129,9 @@
   extern float other_extruder_advance_K[EXTRUDERS];
 #endif
 
+// Cable tensioning lengths for G8 (XYZI axes)
+float cable_lengths[4] = {0.0f, 0.0f, 0.0f, 0.0f};
+
 #if HAS_MULTI_EXTRUDER
   #include "tool_change.h"
   void M217_report(const bool eeprom);
@@ -247,6 +250,11 @@ typedef struct SettingsDataStruct {
   #if HAS_HOTEND_OFFSET
     xyz_pos_t hotend_offset[HOTENDS - 1];               // M218 XYZ
   #endif
+
+  //
+  // Cable Tensioning Lengths (G8)
+  //
+  float cable_lengths[4];                                // Cable lengths for XYZI axes
 
   //
   // Spindle Acceleration
@@ -957,6 +965,15 @@ void MarlinSettings::postprocess() {
         for (uint8_t e = 1; e < HOTENDS; ++e)
           EEPROM_WRITE(hotend_offset[e]);
       #endif
+    }
+
+    //
+    // Cable Tensioning Lengths (G8)
+    //
+    {
+      _FIELD_TEST(cable_lengths);
+      // Save cable lengths for XYZI axes 
+      EEPROM_WRITE(cable_lengths);
     }
 
     //
@@ -2011,6 +2028,15 @@ void MarlinSettings::postprocess() {
           for (uint8_t e = 1; e < HOTENDS; ++e)
             EEPROM_READ(hotend_offset[e]);
         #endif
+      }
+
+      //
+      // Cable Tensioning Lengths (G8)
+      //
+      {
+        _FIELD_TEST(cable_lengths);
+        // Load cable lengths for XYZI axes
+        EEPROM_READ(cable_lengths);
       }
 
       //
@@ -3335,6 +3361,12 @@ void MarlinSettings::reset() {
   // Hotend Offsets
   //
   TERN_(HAS_HOTEND_OFFSET, reset_hotend_offsets());
+
+  //
+  // Cable Tensioning Lengths (G8)
+  //
+  // Reset cable lengths to zero (untensioned state)
+  for (uint8_t i = 0; i < 4; i++) cable_lengths[i] = 0.0f;
 
   //
   // Spindle Acceleration

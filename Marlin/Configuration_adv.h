@@ -931,7 +931,7 @@
  * the position of the toolhead relative to the workspace.
  */
 
-//#define SENSORLESS_BACKOFF_MM  { 2, 2, 0 }  // (linear=mm, rotational=°) Backoff from endstops before sensorless homing
+#define SENSORLESS_BACKOFF_MM  { 5, 5, 5, 5 }  // (linear=mm, rotational=°) Backoff from endstops before sensorless homing
 
 #define HOMING_BUMP_MM      { 5, 5, 5, 5 }       // (linear=mm, rotational=°) Backoff from endstops after first bump
 #define HOMING_BUMP_DIVISOR { 2, 2, 2, 2 }       // Re-Bump Speed Divisor (Divides the Homing Feedrate)
@@ -3035,9 +3035,15 @@
  */
 #if HAS_TRINAMIC_CONFIG
 
-  #define HOLD_MULTIPLIER    0.4  // Scales down the holding current from run current
+  #define HOLD_MULTIPLIER    0.7  // Scales down the holding current from run current (increased for cable tensioning)
 
-  //#define EDITABLE_HOMING_CURRENT   // Add a G-code and menu to modify the Homing Current
+  #define EDITABLE_HOMING_CURRENT   // Add a G-code and menu to modify the Homing Current
+
+  // Homing current adjustment - enables setting different current during homing/sensorless operations
+  #define X_HOME_CURRENT 800   // (mA) Current during homing/probing. TMC2209: 500-2000
+  #define Y_HOME_CURRENT 800   // (mA) Use 60-80% of normal run current
+  #define Z_HOME_CURRENT 800   // (mA)
+  #define I_HOME_CURRENT 800   // (mA)
 
   /**
    * Interpolate microsteps to 256
@@ -3054,15 +3060,15 @@
   #endif
 
   #if AXIS_IS_TMC_CONFIG(X)
-    #define X_CURRENT       800        // (mA) RMS current. Multiply by 1.414 for peak current.
-    #define X_CURRENT_HOME  300  // (mA) RMS current for homing. (Typically lower than *_CURRENT.)
+    #define X_CURRENT       800        // (mA) RMS current for running
+    #define X_CURRENT_HOME  500        // (mA) RMS current for homing - lower for better stall detection
     #define X_MICROSTEPS     16        // 0..256
     #define X_RSENSE          0.11
     #define X_CHAIN_POS      -1        // -1..0: Not chained. 1: MCU MOSI connected. 2: Next in chain, ...
     #define X_STEALTHCHOP    true      // Enable StealthChop for silent operation
     #define X_HOMING_HOLD_CURRENT 800
     //#define X_INTERPOLATE  true      // Enable to override 'INTERPOLATE' for the X axis
-    //#define X_HOLD_MULTIPLIER 0.5    // Enable to override 'HOLD_MULTIPLIER' for the X axis
+    #define X_HOLD_MULTIPLIER 0.8    // Enable to override 'HOLD_MULTIPLIER' for the X axis (high holding torque)
   #endif
 
   #if AXIS_IS_TMC_CONFIG(X2)
@@ -3076,15 +3082,15 @@
   #endif
 
   #if AXIS_IS_TMC_CONFIG(Y)
-    #define Y_CURRENT       800
-    #define Y_CURRENT_HOME  300
+    #define Y_CURRENT       800        // (mA) RMS current for running  
+    #define Y_CURRENT_HOME  500        // (mA) RMS current for homing - lower for better stall detection
     #define Y_MICROSTEPS     16
     #define Y_RSENSE          0.11
     #define Y_CHAIN_POS      -1
     #define Y_STEALTHCHOP    true
     #define Y_HOMING_HOLD_CURRENT 800
     //#define Y_INTERPOLATE  true
-    //#define Y_HOLD_MULTIPLIER 0.5
+    #define Y_HOLD_MULTIPLIER 0.8    // High holding torque for cable tensioning
   #endif
 
   #if AXIS_IS_TMC_CONFIG(Y2)
@@ -3098,15 +3104,15 @@
   #endif
 
   #if AXIS_IS_TMC_CONFIG(Z)
-    #define Z_CURRENT       800
-    #define Z_CURRENT_HOME  300
+    #define Z_CURRENT       800        // (mA) RMS current for running
+    #define Z_CURRENT_HOME  500        // (mA) RMS current for homing - lower for better stall detection
     #define Z_MICROSTEPS     16
     #define Z_RSENSE          0.11
     #define Z_CHAIN_POS      -1
     #define Z_STEALTHCHOP    true
     #define Z_HOMING_HOLD_CURRENT 800
     //#define Z_INTERPOLATE  true
-    //#define Z_HOLD_MULTIPLIER 0.5
+    #define Z_HOLD_MULTIPLIER 0.8    // High holding torque for cable tensioning
   #endif
 
   #if AXIS_IS_TMC_CONFIG(Z2)
@@ -3140,15 +3146,15 @@
   #endif
 
   #if AXIS_IS_TMC_CONFIG(I)
-    #define I_CURRENT      800
-    #define I_CURRENT_HOME 300
+    #define I_CURRENT      800        // (mA) RMS current for running
+    #define I_CURRENT_HOME 500        // (mA) RMS current for homing - lower for better stall detection
     #define I_MICROSTEPS    16
     #define I_RSENSE         0.11
     #define I_CHAIN_POS     -1
     #define I_STEALTHCHOP    true
     #define I_HOMING_HOLD_CURRENT 800
     //#define I_INTERPOLATE  true
-    //#define I_HOLD_MULTIPLIER 0.5
+    #define I_HOLD_MULTIPLIER 0.8    // High holding torque for cable tensioning
   #endif
 
   #if AXIS_IS_TMC_CONFIG(J)
@@ -3512,17 +3518,17 @@
 
   #if ANY(SENSORLESS_HOMING, SENSORLESS_PROBING)
     // TMC2209: 0...255. TMC2130: -64...63
-    #define X_STALL_SENSITIVITY  25
+    #define X_STALL_SENSITIVITY  21
     // #define X2_STALL_SENSITIVITY X_STALL_SENSITIVITY
-    #define Y_STALL_SENSITIVITY  25
+    #define Y_STALL_SENSITIVITY  21
     // #define Y2_STALL_SENSITIVITY Y_STALL_SENSITIVITY
-    #define Z_STALL_SENSITIVITY  25
+    #define Z_STALL_SENSITIVITY  21
     // #define Z2_STALL_SENSITIVITY Z_STALL_SENSITIVITY
     // #define E0_STALL_SENSITIVITY 8
     // #define E1_STALL_SENSITIVITY E0_STALL_SENSITIVITY
     //#define Z3_STALL_SENSITIVITY Z_STALL_SENSITIVITY
     //#define Z4_STALL_SENSITIVITY Z_STALL_SENSITIVITY
-    #define I_STALL_SENSITIVITY  25
+    #define I_STALL_SENSITIVITY  21
     //#define J_STALL_SENSITIVITY  8
     //#define K_STALL_SENSITIVITY  8
     //#define U_STALL_SENSITIVITY  8

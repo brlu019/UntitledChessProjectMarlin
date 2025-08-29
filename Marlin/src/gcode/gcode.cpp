@@ -366,6 +366,9 @@ void GcodeSuite::process_parsed_command(bool no_ok/*=false*/) {
         case 6: G6(); break;                                      // G6: Direct Stepper Move
       #endif
 
+      // Temporarily remove conditional compilation for G8
+      case 8: G8(); break;                                        // G8: Incremental Cable Tensioning
+
       #if ENABLED(FWRETRACT)
         case 10: G10(); break;                                    // G10: Retract / Swap Retract
         case 11: G11(); break;                                    // G11: Recover / Swap Recover

@@ -534,6 +534,9 @@ private:
     static void G6();
   #endif
 
+  // Temporarily remove conditional compilation for G8
+  static void G8();
+
   #if ENABLED(FWRETRACT)
     static void G10();
     static void G11();

@@ -39,6 +39,9 @@
   };
 #endif
 
+// Cable tensioning lengths for G8 (XYZI axes)
+extern float cable_lengths[4];
+
 class MarlinSettings {
   public:
     static uint16_t datasize();

@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(find:*)",
+      "Bash(platformio run:*)",
+      "Bash(make:*)",
+      "Bash(grep:*)",
+      "Bash(pio run:*)",
+      "Bash(python:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
